@@ -1,0 +1,63 @@
+server:
+  port: 8888 #????
+
+
+spring:
+  # shardingsphere
+  shardingsphere:
+    props:
+      sql:
+        show: true  #????sql??
+      query:
+        with:
+          cipher:
+            column: true #???????
+    datasource:   #?????
+      name: master
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/syy?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false
+        username: root
+        password: syy          #ENC(Df5VtEYTO0IZC+81Je+8aA==)
+        initial-size: 20
+        max-active: 200
+        min-idle: 10
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        filter:
+          stat:
+            log-slow-sql: true
+            slow-sql-millis: 1000
+            merge-sql: true
+          wall:
+            config:
+              multi-statement-allow: true
+    # ????
+    encrypt:
+      encryptors:
+        encryptor_sha256:
+          type: SHA256 #????SHA256??
+        aes_encryptor:
+          type: AES #AES??
+          props:
+            aes.key.value: 1234qwe#
+
+      tables:   #????
+        user:
+          columns:  #????
+            pw:
+              cipherColumn: pw  #????????????SHA256??
+              encryptor: encryptor_sha256
+            name:
+              cipherColumn: name  #?????????????
+              encryptor: aes_encryptor
+
+
