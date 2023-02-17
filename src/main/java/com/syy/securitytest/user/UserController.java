@@ -4,12 +4,11 @@ import com.syy.securitytest.dto.R;
 import com.syy.securitytest.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
     @Autowired
     UserService userService;
@@ -36,8 +35,8 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public R login(UserEntity entity){
-        return userService.register(entity);
+    public R login(@RequestBody UserEntity entity){
+        return userService.login(entity);
     }
 
 }
