@@ -1,5 +1,6 @@
 package com.syy.securitytest.user;
 
+import com.alibaba.fastjson.JSON;
 import com.syy.securitytest.dto.R;
 import com.syy.securitytest.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +14,23 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/insert")
-    public R insertUser(UserEntity user){
-        return userService.insertUser(user);
+    @PostMapping("/register")
+    public R insertUser(@RequestBody UserEntity user){
+        return userService.register(user);
     }
 
     @PostMapping("/delete")
-    public R deleteUser(String userName){
+    public R deleteUser(@RequestBody String userName){
         return userService.deleteUser(userName);
     }
 
     @PostMapping("/select")
-    public R selectUser(String userName){
+    public R selectUser(@RequestBody String userName){
         return userService.selectUser(userName);
     }
 
     @PostMapping("/update")
-    public R updateUser(UserEntity userEntity){
+    public R updateUser(@RequestBody UserEntity userEntity){
         return userService.updateUser(userEntity);
     }
 
@@ -38,5 +39,6 @@ public class UserController {
     public R login(@RequestBody UserEntity entity){
         return userService.login(entity);
     }
+
 
 }

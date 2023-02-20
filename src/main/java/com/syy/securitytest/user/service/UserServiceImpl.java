@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService{
         if (user.getUserName().length()>30){
             return new R(500,"用户名不得大于30个字符!");
         }
+
         int i = userMapper.insert(user);
         if (i>0){
             return new R(666,"成功");
@@ -93,4 +94,8 @@ public class UserServiceImpl implements UserService{
         }
         return insertUser(entity);
     }
+
+
+
+
 }
