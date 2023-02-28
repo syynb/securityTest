@@ -1,6 +1,12 @@
 server:
   port: 8888 #????
 
+#jasypt:
+#  encryptor:
+#    password: fac383c79b277e7287005875d72f5ccc422a1e9c06ffce73396d14f6838b2649
+
+
+
 
 spring:
   # shardingsphere
@@ -19,7 +25,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://localhost:3306/security_test?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password: syy          #ENC(Df5VtEYTO0IZC+81Je+8aA==)
+        password: ENC(gJozHPkQCiJTvvxazSkZ/w==)          #ENC(Df5VtEYTO0IZC+81Je+8aA==)
         initial-size: 20
         max-active: 200
         min-idle: 10
@@ -46,7 +52,7 @@ spring:
         aes_encryptor:
           type: AES #AES??
           props:
-            aes.key.value: 1234qwe#
+            aes.key.value: ENC(IIql29QboX5gHcSq/xLrho73dhwpx9Pe)
 
       tables:   #????
         user:

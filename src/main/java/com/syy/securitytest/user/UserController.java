@@ -3,11 +3,14 @@ package com.syy.securitytest.user;
 import com.alibaba.fastjson.JSON;
 import com.syy.securitytest.dto.R;
 import com.syy.securitytest.user.service.UserService;
+import com.syy.securitytest.utils.FileUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 @RequestMapping("/user")
 @CrossOrigin
 public class UserController {
@@ -39,6 +42,8 @@ public class UserController {
     public R login(@RequestBody UserEntity entity){
         return userService.login(entity);
     }
+
+
 
 
 }
