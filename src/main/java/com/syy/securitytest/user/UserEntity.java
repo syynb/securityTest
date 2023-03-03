@@ -3,9 +3,14 @@ package com.syy.securitytest.user;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @TableName("user")
 @Data
-public class UserEntity {
+public class UserEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * id
      */

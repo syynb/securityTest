@@ -1,0 +1,49 @@
+Manifest-Version: 1.0
+Main-Class: com.syy.securitytest.SecurityTestApplication
+Class-Path: mysql-connector-java-8.0.28.jar spring-plugin-metadata-1.2.0
+ .RELEASE.jar sharding-core-execute-4.1.1.jar spring-jdbc-5.3.15.jar enc
+ rypt-core-merge-4.1.1.jar logback-classic-1.2.10.jar key-core.jar sprin
+ g-aop-5.3.15.jar sharding-transaction-core-4.1.1.jar springfox-core-2.7
+ .0.jar spring-plugin-core-1.2.0.RELEASE.jar shadow-core-rewrite-4.1.1.j
+ ar spring-jcl-5.3.15.jar mybatis-plus-extension-3.5.1.jar jsqlparser-4.
+ 3.jar mybatis-spring-2.0.6.jar mapstruct-1.1.0.Final.jar groovy-2.4.5-i
+ ndy.jar sharding-core-api-4.1.1.jar springfox-schema-2.7.0.jar log4j-ap
+ i-2.17.1.jar classmate-1.5.1.jar shardingsphere-sql-parser-sql92-4.1.1.
+ jar sharding-core-rewrite-4.1.1.jar mybatis-plus-boot-starter-3.5.1.jar
+  spring-boot-starter-jdbc-2.6.3.jar spring-boot-starter-2.6.3.jar shard
+ ing-jdbc-spring-boot-starter-4.1.1.jar spring-boot-2.6.3.jar master-sla
+ ve-core-route-4.1.1.jar springfox-swagger-ui-2.7.0.jar shardingsphere-s
+ ql-parser-spi-4.1.1.jar sharding-jdbc-core-4.1.1.jar swagger-annotation
+ s-1.5.13.jar fastjson-1.2.79.jar mybatis-plus-generator-3.5.1.jar tomca
+ t-embed-core-9.0.56.jar tomcat-embed-websocket-9.0.56.jar log4j-to-slf4
+ j-2.17.1.jar shardingsphere-spi-4.1.1.jar shardingsphere-pluggable-4.1.
+ 1.jar mybatis-plus-annotation-3.5.1.jar springfox-swagger2-2.7.0.jar sp
+ ring-boot-starter-web-2.6.3.jar spring-tx-5.3.15.jar jasypt-spring-boot
+ -starter-2.0.0.jar sharding-core-common-4.1.1.jar freemarker-2.3.31.jar
+  spring-boot-starter-tomcat-2.6.3.jar spring-expression-5.3.15.jar spri
+ ng-webmvc-5.3.15.jar slf4j-api-1.7.33.jar sharding-core-route-4.1.1.jar
+  jcl-over-slf4j-1.7.33.jar shardingsphere-sql-parser-statement-4.1.1.ja
+ r guava-18.0.jar swagger-models-1.5.13.jar HikariCP-4.0.3.jar springfox
+ -spring-web-2.7.0.jar jackson-core-2.13.1.jar antlr4-runtime-4.7.2.jar 
+ jackson-module-parameter-names-2.13.1.jar shardingsphere-rewrite-engine
+ -4.1.1.jar shardingsphere-sql-parser-sqlserver-4.1.1.jar mybatis-3.5.9.
+ jar spring-beans-5.3.15.jar encrypt-core-rewrite-4.1.1.jar sharding-spr
+ ing-boot-util-4.1.1.jar snakeyaml-1.29.jar commons-codec-1.15.jar sprin
+ g-boot-starter-json-2.6.3.jar shardingsphere-route-4.1.1.jar springfox-
+ spi-2.7.0.jar sharding-core-merge-4.1.1.jar tomcat-embed-el-9.0.56.jar 
+ sharding-transaction-spring-4.1.1.jar encrypt-core-api-4.1.1.jar encryp
+ t-core-common-4.1.1.jar jackson-annotations-2.13.1.jar javassist-3.21.0
+ -GA.jar byte-buddy-1.11.22.jar jasypt-spring-boot-2.0.0.jar jasypt-1.9.
+ 2.jar springfox-swagger-common-2.7.0.jar jackson-datatype-jsr310-2.13.1
+ .jar reflections-0.9.11.jar shardingsphere-sql-parser-mysql-4.1.1.jar j
+ ul-to-slf4j-1.7.33.jar commons-collections4-4.2.jar spring-boot-autocon
+ figure-2.6.3.jar spring-context-5.3.15.jar shardingsphere-sql-parser-po
+ stgresql-4.1.1.jar jackson-databind-2.13.1.jar spring-boot-starter-logg
+ ing-2.6.3.jar jackson-datatype-jdk8-2.13.1.jar lombok-1.18.22.jar sprin
+ g-web-5.3.15.jar jakarta.annotation-api-1.3.5.jar shardingsphere-common
+ -4.1.1.jar spring-boot-configuration-processor-2.6.3.jar shardingsphere
+ -sql-parser-binder-4.1.1.jar mybatis-plus-core-3.5.1.jar mybatis-plus-3
+ .5.1.jar shardingsphere-sql-parser-engine-4.1.1.jar shardingsphere-sql-
+ parser-oracle-4.1.1.jar spring-core-5.3.15.jar shardingsphere-merge-4.1
+ .1.jar logback-core-1.2.10.jar shardingsphere-executor-4.1.1.jar
+
