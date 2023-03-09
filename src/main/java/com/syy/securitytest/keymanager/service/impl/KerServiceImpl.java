@@ -5,22 +5,25 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.syy.securitytest.dto.R;
 import com.syy.securitytest.dto.UserDto;
 import com.syy.securitytest.keymanager.entity.RootKeyEntity;
+import com.syy.securitytest.keymanager.entity.TokenEntity;
 import com.syy.securitytest.keymanager.mapper.RootKeyMapper;
 import com.syy.securitytest.keymanager.mapper.TokenMapper;
 import com.syy.securitytest.keymanager.service.KeyService;
 import com.syy.securitytest.keymanager.utils.GenerateKey;
+import com.syy.securitytest.keymanager.utils.JYEncryptor;
+import com.syy.securitytest.keymanager.utils.TokenThread;
 import com.syy.securitytest.user.UserEntity;
 import com.syy.securitytest.user.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class KerServiceImpl implements KeyService {
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private RootKeyMapper rootKeyMapper;
     @Autowired
@@ -91,12 +94,82 @@ public class KerServiceImpl implements KeyService {
     }
 
     @Override
-    public R encrypt(String message) {
-        return null;
+    public R encrypt(UserDto dto,String message) {
+        LambdaQueryWrapper<RootKeyEntity> la = new LambdaQueryWrapper<>();
+        la.eq(RootKeyEntity::getUserId,dto.getId());
+        List<RootKeyEntity> list = rootKeyMapper.selectList(la);
+        if (list==null || list.size()<1){
+            return new R(500,"当前用户无密钥");
+        }
+        if (list.size()>1){
+            return new R(500,"系统错误");
+        }
+        String re = JYEncryptor.getEncode(list.get(0).getRootKey(),message);
+        return new R(200,"成功",re);
     }
 
     @Override
-    public R sendKey(UserDto dto) {
-        return null;
+    public String sendKey(String token, HttpServletRequest request) {
+        String ip = request.getLocalAddr();
+        LambdaQueryWrapper<TokenEntity> la = new LambdaQueryWrapper<>();
+        la.eq(TokenEntity::getToken,token);
+        List<TokenEntity> entities = tokenMapper.selectList(la);
+        if (entities==null || entities.size()!=1){
+            return null;
+        }
+        if (!entities.get(0).getUserIp().equals(ip)){
+            return null;
+        }
+        if(!String.valueOf((entities.get(0).getUserIp()+entities.get(0).getUserId()).hashCode()).equals(token)){
+            return null;
+        }
+        LambdaQueryWrapper<RootKeyEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(RootKeyEntity::getUserId,entities.get(0).getUserId());
+        List<RootKeyEntity> keys = rootKeyMapper.selectList(lambdaQueryWrapper);
+        if (keys==null || keys.size()!=1){
+            return null;
+        }
+        return keys.get(0).getRootKey();
     }
+
+    @Override
+    public R getToken(UserDto dto,HttpServletRequest request) {
+        LambdaQueryWrapper<RootKeyEntity> laKey = new LambdaQueryWrapper<>();
+        laKey.eq(RootKeyEntity::getUserId,dto.getId());
+        List<RootKeyEntity> keyList = rootKeyMapper.selectList(laKey);
+        if (keyList==null || keyList.size()!=1){
+            return new R(500,"系统错误");
+        }
+        String token = String.valueOf((dto.getId()+dto.getUserIp()).hashCode());
+        String message = "请求url:http://"+request.getLocalAddr()+":8888/key/getToken";
+        TokenEntity entity = new TokenEntity();
+        entity.setToken(token);
+        entity.setUserId(dto.getId());
+        entity.setUserIp(dto.getUserIp());
+        LambdaQueryWrapper<TokenEntity> laTo = new LambdaQueryWrapper<>();
+        laTo.eq(TokenEntity::getUserId,dto.getId());
+        List<TokenEntity> list = tokenMapper.selectList(laTo);
+        if (list!=null && list.size()>1){
+            LambdaQueryWrapper<TokenEntity> delWrapper = new LambdaQueryWrapper<>();
+            delWrapper.eq(TokenEntity::getId,list.get(0).getId());
+            int i = tokenMapper.delete(delWrapper);
+            if (i<1){
+                return new R(500,"系统错误");
+            }
+        }
+        int i = tokenMapper.insert(entity);
+        if(i<1){
+            return new R(500,"获取token失败");
+        }
+        LambdaQueryWrapper<TokenEntity> l = new LambdaQueryWrapper<>();
+        l.eq(TokenEntity::getUserId,dto.getId());
+        Integer id = tokenMapper.selectList(l).get(0).getId();
+        l.eq(TokenEntity::getId,id);
+        TokenThread tokenThread = new TokenThread(tokenMapper,l);
+        tokenThread.start();
+
+        return new R(200,message,"token(10分钟内失效):"+token);
+
+    }
+
 }

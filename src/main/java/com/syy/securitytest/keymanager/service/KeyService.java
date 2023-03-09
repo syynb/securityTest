@@ -3,6 +3,8 @@ package com.syy.securitytest.keymanager.service;
 import com.syy.securitytest.dto.R;
 import com.syy.securitytest.dto.UserDto;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface KeyService {
 
     /**
@@ -31,13 +33,18 @@ public interface KeyService {
      * @param message
      * @return
      */
-    public R encrypt(String message);
+    public R encrypt(UserDto dto,String message);
 
     /**
      * 向用户发送密钥
-     * @param dto
+     * @param token
      * @return
      */
-    public R sendKey(UserDto dto);
+    public String sendKey(String token, HttpServletRequest request);
 
+
+    /**
+     * 用户创建获取token,10分钟有效期
+     */
+    public R getToken(UserDto dto,HttpServletRequest request);
 }
