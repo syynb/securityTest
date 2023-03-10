@@ -30,7 +30,7 @@ public interface KeyService {
 
     /**
      * 加密
-     * @param message
+     * @param
      * @return
      */
     public R encrypt(UserDto dto);

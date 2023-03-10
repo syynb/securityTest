@@ -17,7 +17,7 @@ public class KeyController {
     KeyService service;
 
     @PostMapping("/getKey")
-    public String getKey(String token, HttpServletRequest request){
+    public String getKey(@RequestBody String token, HttpServletRequest request){
         return service.sendKey(token,request);
     }
 

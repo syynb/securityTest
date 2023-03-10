@@ -123,7 +123,7 @@ public class KerServiceImpl implements KeyService {
         if (!entities.get(0).getUserIp().equals(ip)){
             return null;
         }
-        if(!String.valueOf((entities.get(0).getUserIp()+entities.get(0).getUserId()).hashCode()).equals(token)){
+        if(!entities.get(0).getToken().equals(token)){
             return null;
         }
         LambdaQueryWrapper<RootKeyEntity> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -146,8 +146,8 @@ public class KerServiceImpl implements KeyService {
         if(!IpTest.isIpLegal(dto.getUserIp())){
             return new R(500,"ip格式不正确");
         }
-        String token = String.valueOf((dto.getId()+dto.getUserIp()).hashCode());
-        String message = "请求url:http://"+request.getLocalAddr()+":8888/key/getToken";
+        String token = GenerateKey.generateKey();
+        String message = "请求url:http://"+request.getLocalAddr()+":8888/key/getKey";
         TokenEntity entity = new TokenEntity();
         entity.setToken(token);
         entity.setUserId(dto.getId());
@@ -155,7 +155,8 @@ public class KerServiceImpl implements KeyService {
         LambdaQueryWrapper<TokenEntity> laTo = new LambdaQueryWrapper<>();
         laTo.eq(TokenEntity::getUserId,dto.getId());
         List<TokenEntity> list = tokenMapper.selectList(laTo);
-        if (list!=null && list.size()>1){
+
+        if (list!=null && list.size()>0){
             LambdaQueryWrapper<TokenEntity> delWrapper = new LambdaQueryWrapper<>();
             delWrapper.eq(TokenEntity::getId,list.get(0).getId());
             int i = tokenMapper.delete(delWrapper);
