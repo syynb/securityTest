@@ -33,7 +33,7 @@ public interface KeyService {
      * @param message
      * @return
      */
-    public R encrypt(UserDto dto,String message);
+    public R encrypt(UserDto dto);
 
     /**
      * 向用户发送密钥

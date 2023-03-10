@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
         entity.setPassword(user.getPassword());
         int i = userMapper.insert(entity);
         if (i>0){
-            return new R(666,"成功");
+            return new R(200,"成功");
         }else return new R(500,"失败");
     }
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService{
         la.eq(UserEntity::getUserName,userName);
         int i = userMapper.delete(la);
         if (i>0){
-            return new R(666,"成功");
+            return new R(200,"成功");
         }else return new R(500,"失败");
     }
 
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
         la.set(UserEntity::getPassword,user.getPassword());
         int i = userMapper.update(null,la);
         if (i>0){
-            return new R(666,"成功");
+            return new R(200,"成功");
         }else return new R(500,"失败");
     }
 
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService{
             dto.setId(entity.getId());
             dtos.add(dto);
         }
-        return new R(666,"成功",dtos);
+        return new R(200,"成功",dtos);
     }
 
     @Override
@@ -92,7 +92,12 @@ public class UserServiceImpl implements UserService{
             UserDto dto = new UserDto();
             dto.setId(entities.get(0).getId());
             dto.setUserName(entities.get(0).getUserName());
-            return new R(666,"成功",dto);
+            StringBuilder logToken = new StringBuilder();
+            for (int i = 0; i < 10; i++) {
+                logToken.append((int) (Math.random() * 10));
+            }
+            dto.setLogToken(logToken.toString());
+            return new R(200,"成功",dto);
         }
         return new R(500,"用户不存在或密码不正确");
     }

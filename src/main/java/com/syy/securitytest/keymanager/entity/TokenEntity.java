@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@TableName("root_key")
+@TableName("token")
 @Data
 public class TokenEntity implements Serializable {
 

@@ -22,27 +22,27 @@ public class KeyController {
     }
 
     @PostMapping("/getToken")
-    public R getToken(UserDto dto, HttpServletRequest request){
+    public R getToken(@RequestBody UserDto dto, HttpServletRequest request){
         return service.getToken(dto,request);
     }
 
     @PostMapping("/generateKey")
-    public R generateKey(UserDto dto){
+    public R generateKey(@RequestBody UserDto dto){
         return service.generateKey(dto);
     }
 
     @PostMapping("/updateKey")
-    public R updateKey(UserDto dto){
+    public R updateKey(@RequestBody UserDto dto){
         return service.updateKey(dto);
     }
 
     @PostMapping("/deleteKey")
-    public R deleteKey(UserDto dto){
+    public R deleteKey(@RequestBody UserDto dto){
         return service.deleteKey(dto);
     }
 
     @PostMapping("/encrypt")
-    public R encrypt(UserDto dto,String message){
-        return service.encrypt(dto,message);
+    public R encrypt(@RequestBody UserDto dto){
+        return service.encrypt(dto);
     }
 }

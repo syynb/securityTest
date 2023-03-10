@@ -10,6 +10,7 @@ import com.syy.securitytest.keymanager.mapper.RootKeyMapper;
 import com.syy.securitytest.keymanager.mapper.TokenMapper;
 import com.syy.securitytest.keymanager.service.KeyService;
 import com.syy.securitytest.keymanager.utils.GenerateKey;
+import com.syy.securitytest.keymanager.utils.IpTest;
 import com.syy.securitytest.keymanager.utils.JYEncryptor;
 import com.syy.securitytest.keymanager.utils.TokenThread;
 import com.syy.securitytest.user.UserEntity;
@@ -51,7 +52,6 @@ public class KerServiceImpl implements KeyService {
         }else {
             UserDto re = new UserDto();
             re.setId(dto.getId());
-            re.setRootKey(key);
             re.setUserName(dto.getUserName());
             return new R(200,"创建成功",re);
         }
@@ -74,7 +74,7 @@ public class KerServiceImpl implements KeyService {
             return new R(500,"更新失败");
         }
         dto.setRootKey(newKey);
-        return new R(200,"成功",dto);
+        return new R(200,"更新成功，请重新对输入明文密钥或密码加密",dto);
     }
 
     @Override
@@ -82,8 +82,11 @@ public class KerServiceImpl implements KeyService {
         LambdaQueryWrapper<RootKeyEntity> la = new LambdaQueryWrapper<>();
         la.eq(RootKeyEntity::getUserId,dto.getId());
         Long i = rootKeyMapper.selectCount(la);
-        if (i!=1){
+        if (i>1){
             return new R(500,"系统错误");
+        }
+        if (i<1){
+            return new R(500,"当前用户无密钥");
         }
         int j = rootKeyMapper.delete(la);
         if (j<1){
@@ -94,7 +97,7 @@ public class KerServiceImpl implements KeyService {
     }
 
     @Override
-    public R encrypt(UserDto dto,String message) {
+    public R encrypt(UserDto dto) {
         LambdaQueryWrapper<RootKeyEntity> la = new LambdaQueryWrapper<>();
         la.eq(RootKeyEntity::getUserId,dto.getId());
         List<RootKeyEntity> list = rootKeyMapper.selectList(la);
@@ -104,7 +107,7 @@ public class KerServiceImpl implements KeyService {
         if (list.size()>1){
             return new R(500,"系统错误");
         }
-        String re = JYEncryptor.getEncode(list.get(0).getRootKey(),message);
+        String re = JYEncryptor.getEncode(list.get(0).getRootKey(),dto.getMessage());
         return new R(200,"成功",re);
     }
 
@@ -138,7 +141,10 @@ public class KerServiceImpl implements KeyService {
         laKey.eq(RootKeyEntity::getUserId,dto.getId());
         List<RootKeyEntity> keyList = rootKeyMapper.selectList(laKey);
         if (keyList==null || keyList.size()!=1){
-            return new R(500,"系统错误");
+            return new R(500,"当前用户无密钥");
+        }
+        if(!IpTest.isIpLegal(dto.getUserIp())){
+            return new R(500,"ip格式不正确");
         }
         String token = String.valueOf((dto.getId()+dto.getUserIp()).hashCode());
         String message = "请求url:http://"+request.getLocalAddr()+":8888/key/getToken";

@@ -36,4 +36,14 @@ public class UserDto {
      * 用户token
      */
     private String token;
+
+    /**
+     * 登录token
+     */
+    private String logToken;
+
+    /**
+     * 加密密文
+     */
+    private String message;
 }
