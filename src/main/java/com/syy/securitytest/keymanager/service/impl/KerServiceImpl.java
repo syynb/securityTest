@@ -107,7 +107,7 @@ public class KerServiceImpl implements KeyService {
         if (list.size()>1){
             return new R(500,"系统错误");
         }
-        String re = JYEncryptor.getEncode(list.get(0).getRootKey(),dto.getMessage());
+        String re = "ENC("+JYEncryptor.getEncode(list.get(0).getRootKey(),dto.getMessage())+")";
         return new R(200,"成功",re);
     }
 
