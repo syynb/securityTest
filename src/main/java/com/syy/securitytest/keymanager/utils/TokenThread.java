@@ -22,7 +22,7 @@ public class TokenThread extends Thread{
     @Override
     public void run(){
         try {
-            sleep(6000001);
+            sleep(600000);
             mapper.delete(lambdaQueryWrapper);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
